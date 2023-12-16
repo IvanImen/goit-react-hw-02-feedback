@@ -6,10 +6,22 @@ export class App extends Component {
     neutral: 0,
     bad: 0,
   };
+
   handleClick = statsKey =>
     this.setState(prev => ({
       [statsKey]: prev[statsKey] + 1,
     }));
+
+  countTotalFeedback = () => {
+    return this.state.good + this.state.neutral + this.state.bad;
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    return this.countTotalFeedback() === 0
+      ? 'There is no feedback'
+      : Math.ceil((this.state.good / this.countTotalFeedback()) * 100) + '%';
+  };
+
   render() {
     const statsTitles = Object.keys(this.state);
 
@@ -28,6 +40,10 @@ export class App extends Component {
               {statsTitle} {this.state[statsTitle]}
             </li>
           ))}
+        </ul>
+        <ul>
+          <li>Total: {this.countTotalFeedback()}</li>
+          <li>Positive Feedback: {this.countPositiveFeedbackPercentage()}</li>
         </ul>
       </>
     );
