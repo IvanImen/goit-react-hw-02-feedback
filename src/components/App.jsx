@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Section, FeedbackOptions, Statistics } from 'components';
 
 export class App extends Component {
   state = {
@@ -27,24 +28,20 @@ export class App extends Component {
 
     return (
       <>
-        <h1>Please leave feedback</h1>
-        {statsTitles.map(statsTitle => (
-          <button key={statsTitle} onClick={() => this.handleClick(statsTitle)}>
-            {statsTitle}
-          </button>
-        ))}
-        <h2>Statistics</h2>
-        <ul>
-          {statsTitles.map(statsTitle => (
-            <li key={statsTitle}>
-              {statsTitle} {this.state[statsTitle]}
-            </li>
-          ))}
-        </ul>
-        <ul>
-          <li>Total: {this.countTotalFeedback()}</li>
-          <li>Positive Feedback: {this.countPositiveFeedbackPercentage()}</li>
-        </ul>
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={statsTitles}
+            onLeaveFeedback={this.handleClick}
+          ></FeedbackOptions>
+        </Section>
+        <Section title="Statistics">
+          <Statistics
+            stats={this.state}
+            options={statsTitles}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}
+          ></Statistics>
+        </Section>
       </>
     );
   }
